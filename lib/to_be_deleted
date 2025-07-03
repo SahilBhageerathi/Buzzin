@@ -1,0 +1,8 @@
+// flutter create my_app
+
+// ---------To run emulator------------------
+// flutter emulators
+// flutter emulators --launch <emulator_id> 
+// flutter run -d emulator-5554
+// hot reload- press r
+// hot restart press R
