@@ -2,43 +2,36 @@ import 'package:buzzin/src/View/Core/CommonWidgets/recent_chats_card.dart';
 import 'package:buzzin/src/View/Core/Resources/svg_images.dart';
 import 'package:buzzin/src/View/Core/Resources/app_strings.dart';
 import 'package:buzzin/src/View/Core/Utils/app_extensions.dart';
+import 'package:buzzin/src/View/screens/chat_screen.dart';
 import 'package:buzzin/src/View/screens/widgets/tab_name_view.dart';
 import 'package:buzzin/src/ViewModel/Logic/Dashboard_bloc/dashboard_bloc.dart';
 import 'package:buzzin/src/ViewModel/Logic/Dashboard_bloc/dashboard_state.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../Core/Resources/app_colors.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class RecentChatsPage extends StatefulWidget {
+  const RecentChatsPage({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<RecentChatsPage> createState() => _RecentChatsPageState();
 }
 
-class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin {
+class _RecentChatsPageState extends State<RecentChatsPage> with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 3, vsync: this);
-
-    // _tabController.animation!.addListener(() {
-    //   final animationValue = _tabController.animation!.value;
-    //   final isSwiping = animationValue % 1 != 0;
-    //
-    //   if (!isSwiping) {
-    //     DashBoardBloc.instance.changeTab(_tabController.index);
-    //   }
-    // });
   }
 
   @override
   Widget build(BuildContext context) {
-
     final textTheme = Theme.of(context).textTheme;
     return BlocBuilder<DashBoardBloc, DashBoardState>(
       bloc: DashBoardBloc.instance,
@@ -48,23 +41,42 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
         }
         return state.isLoading
             ? const Center(child: CircularProgressIndicator())
-            : Scaffold(
-                body: Container(
+            : Material(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(35.r),
+                    topRight: Radius.circular(35.r),
+                  ),
+                ),
+                clipBehavior: Clip.antiAlias,
+                child: Container(
+                  height: MediaQuery.of(context).size.height,
                   decoration: const BoxDecoration(
-                      gradient: LinearGradient(
-                    colors: [
-                      Colors.white,
-                      AppColors.userOfflineColor,
-                    ],
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                  )),
+                    gradient: LinearGradient(
+                      colors: [
+                        Colors.white,
+                        AppColors.userOfflineColor,
+                      ],
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                    ),
+                  ),
                   child: Padding(
                     padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        kToolbarHeight.hs,
+                        //this widget
+                        Center(
+                            child: Container(
+                          height: 5.h,
+                          width: 40.w,
+                          decoration: BoxDecoration(
+                            color: AppColors.userOfflineColor,
+                            borderRadius: BorderRadius.circular(5.r),
+                          ),
+                        ),),
+                        (kToolbarHeight / 2.5).hs,
                         Row(
                           children: [
                             Text(
@@ -123,7 +135,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                         ),
                         Expanded(
                           child: Container(
-                            padding: EdgeInsets.symmetric( vertical: 5.h),
+                            padding: EdgeInsets.symmetric(vertical: 5.h),
                             child: TabBarView(
                               controller: _tabController,
                               physics: const NeverScrollableScrollPhysics(),
@@ -135,10 +147,36 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                                     return 5.hs;
                                   },
                                   itemBuilder: (context, i) {
+                                    return InkWell(
+                                      onTap: (){
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(builder: (context) =>  ChatScreen(chatId: "1",contactName: "Sahil Bhageerathi",)),
+                                        );
+                                      },
+                                      child: RecentChatCard(
+                                        contactImage: SvgImages.noUserIcon,
+                                        index: i,
+                                        contactName: "Contact",
+                                        lastMessageTime: 1752474556264,
+                                        lastMessage:
+                                            "hi I will be offline till hi I will be offlsfsdfsdfsdfsfsfsfsfsfsfsfsfsfsfssfsfsfsfsf",
+                                      ),
+                                    );
+                                  },
+                                ),
+                                ListView.separated(
+                                  padding: EdgeInsets.zero,
+                                  itemCount: 15,
+                                  separatorBuilder: (context, i) {
+                                    return 5.hs;
+                                  },
+                                  itemBuilder: (context, i) {
                                     return RecentChatCard(
                                       contactImage: SvgImages.noUserIcon,
                                       index: i,
                                       contactName: "Contact",
+                                      lastMessageTime: 1720974180000,
                                       lastMessage:
                                           "hi I will be offline till hi I will be offlsfsdfsdfsdfsfsfsfsfsfsfsfsfsfsfssfsfsfsfsf",
                                     );
@@ -155,24 +193,9 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                                       contactImage: SvgImages.noUserIcon,
                                       index: i,
                                       contactName: "Contact",
+                                      lastMessageTime: 1752412200000,
                                       lastMessage:
-                                      "hi I will be offline till hi I will be offlsfsdfsdfsdfsfsfsfsfsfsfsfsfsfsfssfsfsfsfsf",
-                                    );
-                                  },
-                                ),
-                                ListView.separated(
-                                  padding: EdgeInsets.zero,
-                                  itemCount: 15,
-                                  separatorBuilder: (context, i) {
-                                    return 5.hs;
-                                  },
-                                  itemBuilder: (context, i) {
-                                    return RecentChatCard(
-                                      contactImage: SvgImages.noUserIcon,
-                                      index: i,
-                                      contactName: "Contact",
-                                      lastMessage:
-                                      "hi I will be offline till hi I will be offlsfsdfsdfsdfsfsfsfsfsfsfsfsfsfsfssfsfsfsfsf",
+                                          "hi I will be offline till hi I will be offlsfsdfsdfsdfsfsfsfsfsfsfsfsfsfsfssfsfsfsfsf",
                                     );
                                   },
                                 ),
@@ -191,7 +214,3 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     );
   }
 }
-
-
-
-

@@ -1,6 +1,5 @@
 import 'dart:math';
 import 'package:buzzin/src/View/Core/Resources/svg_images.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -11,6 +10,7 @@ class ContactIcon extends StatelessWidget {
   final String userImage;
   final int bigCircleRadius;
   final int smallCircleRadius;
+  final int offsetForSmallCircle;
   final double angleInDegrees;
   final bool isOnline;
 
@@ -19,6 +19,7 @@ class ContactIcon extends StatelessWidget {
     this.userImage = SvgImages.noUserIcon,
     this.bigCircleRadius = 25,
     this.smallCircleRadius = 5,
+    this.offsetForSmallCircle = 3,
     this.angleInDegrees = 45.0,
     this.isOnline = true,
   });
@@ -29,6 +30,7 @@ class ContactIcon extends StatelessWidget {
 
     final bigRadius = bigCircleRadius.r;
     final smallRadius = smallCircleRadius.r;
+    final offset = offsetForSmallCircle.r;
 
     final offsetX = bigRadius + bigRadius * cos(angle) - smallRadius;
     final offsetY = bigRadius + bigRadius * sin(angle) - smallRadius;
@@ -53,11 +55,11 @@ class ContactIcon extends StatelessWidget {
             ),
           ),
           Positioned(
-            left: offsetX - 3.r,
-            top: offsetY - 3.r,
+            left: offsetX - offset,
+            top: offsetY - offset,
             child: Container(
-              height: 2 * (smallRadius + 3.r),
-              width: 2 * (smallRadius + 3.r),
+              height: 2 * (smallRadius + offset),
+              width: 2 * (smallRadius + offset),
               decoration: const BoxDecoration(
                 shape: BoxShape.circle,
                 color: Colors.white,

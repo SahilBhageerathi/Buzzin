@@ -1,7 +1,7 @@
 import 'package:buzzin/src/Service/connectivity_service.dart';
 import 'package:buzzin/src/View/Core/Resources/app_strings.dart';
 import 'package:buzzin/src/View/Core/Utils/global_constants.dart';
-import 'package:buzzin/src/View/Screens/home_page.dart';
+import 'package:buzzin/src/View/screens/main_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'src/View/Config/app_theme.dart';
@@ -31,7 +31,9 @@ class MyApp extends StatelessWidget {
               themeMode: ThemeMode.light,
               theme: AppTheme.light,
               darkTheme: AppTheme.dark,
-              home: HomePage()),
+              // home: HomePage(),
+              home: MainPage(),
+          ),
         );
       },
     );
